@@ -20,16 +20,16 @@ void trySwap(int p)
 		if(p!=i)
 		{
 			swap(a[p],a[i]);
-			bool ok=false;
+			bool ok=true;
 			for(auto c:pos)
 				if(!checkPos(c))
 				{
 					ok=false;
-					return;
+					break;
 				}
-			if(checkPos(p) && checkPos(p-1) && checkPos(i) && checkPos(i-1))
+			if(checkPos(p) && checkPos(p-1) && checkPos(i) && checkPos(i-1) && ok)
 			{
-				printf("i=%d j=%d\n",p,i);
+				//printf("i=%d j=%d\n",p,i);
 				if(flag[p].find(i)==flag[p].end() && flag[i].find(p) == flag[i].end())
 				{
 					flag[p].insert(i);	flag[i].insert(p);
@@ -43,19 +43,29 @@ void trySwap(int p)
 int main()
 {
 	freopen("C.in","r",stdin);
-	freopen("C.out","w",stdout);
+	//freopen("C.out","w",stdout);
 	scanf("%d",&n);
 	for(int i=1;i<=n;i++)
 		scanf("%d",&a[i]);
 	for(int i=1;i<n;i++)
 	{
-		if(!checkPos(i) && !tag[i])
+		if(!checkPos(i))
 		{
-			tag[i]=tag[i+1]=true;
-			pos.push_back(i);
-			pos.push_back(i+1);
+			if(!tag[i])
+			{
+                pos.push_back(i);
+                tag[i]=true;
+			}
+			/*
+			if(!tag[i+1])
+			{
+                pos.push_back(i+1);
+                tag[i+1]=true;
+			}
+			*/
 		}
 	}
+	//printf("size=%d\n",pos.size());
 	if(pos.size()>4)
 	{
 		printf("0\n");
